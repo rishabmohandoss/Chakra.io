@@ -8,6 +8,6 @@ From the repository root, run a static server such as `python3 -m http.server 80
 
 ## GitHub Pages
 
-The included Actions workflow deploys the repository root after each push to `main`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. GitHub Pages will publish at `https://rishabmohandoss.github.io/Chakra.io/` once that workflow completes.
+In the repository settings, set **Pages → Build and deployment → Source** to **Deploy from a branch**, then select **main** and **/(root)**. GitHub Pages will publish at `https://rishabmohandoss.github.io/Chakra.io/` after the first deployment. The site is plain static HTML, CSS, and JavaScript, so it does not need a build step.
 
 The ROSA and HCI route pages are framework placeholders that establish the permanent URLs and separate visual environments described in the project handoff. The full ROSA interactive experience and MVP can be developed into these routes later.
