@@ -22,3 +22,16 @@ navigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click
   navigation.classList.remove('open');
   menuButton?.setAttribute('aria-expanded', 'false');
 }));
+
+const heroArt = document.querySelector('.hero-art');
+if (heroArt && window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+  document.querySelector('.hero')?.addEventListener('pointermove', (event) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    heroArt.style.transform = `translate(${x * 9}px, ${14 + y * 9}px)`;
+  });
+  document.querySelector('.hero')?.addEventListener('pointerleave', () => {
+    heroArt.style.transform = 'translate(0, 14px)';
+  });
+}
