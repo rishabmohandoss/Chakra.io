@@ -90,7 +90,53 @@ body{background:#101e3b;color:var(--ink)}
 .hud-readout b{font-size:9px;color:var(--arcade)}.hud-readout i{height:3px;background:#ffffff26;display:block}.hud-readout u{display:block;width:100%;height:100%;background:var(--arcade);text-decoration:none;box-shadow:0 0 9px var(--arcade)}.hud-readout small{font-size:7px;text-align:right;color:var(--teal)}
 .radar-scan{position:absolute;inset:14%;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 83%,#38d9dc20 97%,transparent 100%);animation:spin 8s linear infinite;pointer-events:none}
 .hero-art{transition:transform .35s ease-out}
+.core-glyph img{width:96px;height:96px;display:block;filter:drop-shadow(0 0 12px #d9ff5550)}
 .manifesto-mark{width:min(62vw,690px);height:min(62vw,690px);right:-2%;top:-4%;font-size:0;opacity:.14}
 .manifesto-mark img{width:100%;height:100%;filter:grayscale(1) brightness(2.5);opacity:.45}
 @media(max-width:800px){.hud-readout{right:-1%;bottom:0;transform:scale(.86);transform-origin:right bottom}.hero{background-size:30px 30px,30px 30px,100% 100%}.nav-cta{border-color:#d9ff5570}.world-card{box-shadow:0 10px 35px #050a1640}}
 @media(prefers-reduced-motion:reduce){.radar-scan{animation:none}.hero-art{transition:none}}
+
+/* Phone layout: reserve room for the artwork and let every headline fit. */
+@media(max-width:520px){
+  .hero{min-height:790px;height:auto;padding:126px 6vw 345px}
+  .hero-copy{width:100%;padding-bottom:0}
+  .hero h1{font-size:clamp(42px,13.5vw,66px);line-height:.9;letter-spacing:-.09em;overflow-wrap:normal}
+  .hero h1 .outline-word{letter-spacing:-.095em}
+  .asterisk{margin-left:6px}
+  .hero-bottom{gap:14px;margin-top:25px;align-items:center}
+  .hero-bottom p{max-width:calc(100% - 55px);font-size:12px;line-height:1.55}
+  .round-link{width:39px;height:39px;flex-basis:39px}
+  .hero-art{width:min(94vw,390px);height:335px;right:50%;bottom:42px;transform:translate(50%,0)!important;margin:0;opacity:1}
+  .hero-art .core{width:112px;height:112px}
+  .core-glyph img{width:76px;height:76px}
+  .hero-art .orbit-b{height:78%;width:72%}
+  .hero-art .node-rosa{left:2%;top:21%}
+  .hero-art .node-hci{right:2%;bottom:19%}
+  .hero-art .node{min-width:102px;padding:9px 10px}
+  .hero-art .node span{font-size:14px}
+  .hero-art .node small{font-size:7px}
+  .hero-art .label-top{right:3%;top:5%}
+  .hero-art .label-bottom{left:2%;bottom:4%}
+  .hud-readout{right:0;bottom:0;transform:scale(.75);transform-origin:right bottom}
+  .hero-index{left:6vw;right:6vw;bottom:17px;gap:10px;font-size:7px}
+  .intro h2,.rosa-detail h2{font-size:clamp(38px,10.8vw,56px);letter-spacing:-.075em}
+  .manifesto h2{font-size:clamp(40px,11vw,62px);letter-spacing:-.075em}
+  .manifesto-mark{width:78vw;height:78vw;right:-14%;top:11%}
+  .section-kicker{gap:16px;font-size:8px}
+  .section-kicker span:last-child{text-align:right}
+  .route-row{grid-template-columns:26px minmax(0,1fr) 22px;gap:8px}
+  .route-title{font-size:13px;line-height:1.35}
+}
+@media(max-width:360px){
+  .topbar{padding-inline:4vw}
+  .wordmark{gap:6px;font-size:15px}
+  .mark{width:28px;height:28px}
+  .nav-cta{margin-right:9px;padding:9px 8px;font-size:8px}
+  .nav-cta:before{margin-right:5px}
+  .hero h1{font-size:42px}
+  .hero{padding-inline:5vw}
+  .hero-index{left:5vw;right:5vw}
+  .hero-art{width:100vw}
+  .hero-art .node-hci{right:1%}
+  .hero-art .node-rosa{left:1%}
+}

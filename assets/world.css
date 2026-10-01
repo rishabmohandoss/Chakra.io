@@ -49,3 +49,44 @@
 .footer{background:#080f20;border-color:#ffffff2b}
 .footer .mark{background:transparent}
 .footer .mark img{filter:drop-shadow(0 0 7px #d9ff5570)}
+
+@media(max-width:520px){
+  .world-hero{min-height:790px;height:auto;padding:18px 6vw 28px}
+  .world-hero-main{padding-top:45px}
+  .world-hero h1{font-size:clamp(38px,11.5vw,60px);line-height:.92;letter-spacing:-.085em}
+  .world-hero .eyebrow{font-size:8px;letter-spacing:.08em;margin-bottom:22px}
+  .world-lede{max-width:82%;font-size:12px;line-height:1.65;margin:20px 0}
+  .world-graphic{width:min(80vw,320px);min-width:0;height:auto;aspect-ratio:1;right:-4%;bottom:7%}
+  .wg-core{width:96px;height:96px;font-size:68px}
+  .world-scroll{font-size:6px;gap:7px}
+  .world-intro{grid-template-columns:1fr;gap:20px;padding:64px 6vw 70px}
+  .world-count{grid-column:auto}
+  .world-intro h2{font-size:clamp(35px,10vw,48px);line-height:1.02;letter-spacing:-.075em}
+  .world-intro>p{font-size:12px;line-height:1.65;max-width:100%}
+  .destinations{padding:68px 6vw 82px}
+  .destination{grid-template-columns:24px minmax(0,1fr) 22px;gap:8px;min-height:78px}
+  .destination strong{font-size:clamp(12px,3.7vw,15px);line-height:1.35}
+  .world-end{padding:28px 6vw 60px;min-height:365px}
+  .world-end h2{font-size:clamp(55px,16vw,72px);margin:65px 0 30px}
+  .world-end:after{font-size:320px;right:-4%;top:25px}
+  .hci-status{padding:32px 7%;gap:30px}
+  .hci-status h3{font-size:25px}
+  .route-page{padding:88px 6vw 46px}
+  .route-breadcrumb{font-size:7px;letter-spacing:.04em;line-height:1.7}
+  .route-hero{min-height:620px;padding:84px 0 48px}
+  .route-hero h1{font-size:clamp(40px,13vw,63px);line-height:.92;letter-spacing:-.09em;max-width:100%}
+  .route-index{top:37px;font-size:8px}
+  .route-hero>p:not(.eyebrow){max-width:88%;font-size:12px;line-height:1.65}
+  .route-hero .eyebrow{font-size:8px;letter-spacing:.07em}
+  .route-orbit{width:220px;height:220px;top:72%;right:-24%;opacity:.22;pointer-events:none;z-index:0}
+  .route-hero .world-action{position:relative;z-index:1}
+  .footer{padding-inline:6vw}
+  .footer .wordmark{font-size:15px}
+}
+@media(max-width:360px){
+  .world-hero h1{font-size:38px}
+  .world-graphic{width:84vw;right:-9%}
+  .route-hero h1{font-size:40px}
+  .destination strong{font-size:12px}
+  .footer>a:last-child{font-size:6px}
+}
