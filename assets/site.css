@@ -140,3 +140,96 @@ body{background:#101e3b;color:var(--ink)}
   .hero-art .node-hci{right:1%}
   .hero-art .node-rosa{left:1%}
 }
+
+/* Six-part ecosystem orbit and restrained celestial drift. */
+.hero h1{font-size:clamp(66px,8.9vw,132px)}
+.hero-art .orbit-a,.hero-art .orbit-b,.hero-art .orbit-c{animation:none}
+.hero-art .orbit-b{border-style:solid}
+.hero-art .core{animation:none}
+.hero-art .core-spark{animation:none}
+.asterisk{animation:none}
+.hero-art .node{animation:celestial-orbit 210s linear infinite;offset-path:ellipse(35% 27% at 50% 50%);offset-anchor:center;offset-rotate:0deg;offset-distance:var(--orbit-start,0%)}
+.hero-art .node-rosa{--orbit-start:0%;left:auto;right:auto;top:auto;bottom:auto}
+.hero-art .node-hci{--orbit-start:33.33%;left:auto;right:auto;top:auto;bottom:auto}
+.hero-art .node-decisioning{--orbit-start:66.66%;left:auto;right:auto;top:auto;bottom:auto}
+.hero-art .node-sir{--orbit-start:16.66%;left:auto;right:auto;top:auto;bottom:auto}
+.hero-art .node-runtime{--orbit-start:50%;left:auto;right:auto;top:auto;bottom:auto}
+.hero-art .node-candidate{--orbit-start:83.33%;left:auto;right:auto;top:auto;bottom:auto}
+.hero-art .node-major{min-width:142px;max-width:170px;padding:13px 15px;border-color:#d9ff5580;background:#111f3bf2;box-shadow:0 0 26px #38d9dc24,0 12px 40px #050a1690}
+.hero-art .node-major span{font-size:16px;line-height:1.08;color:#f6f5ed}
+.hero-art .node-major small{font-size:7px;letter-spacing:.11em;color:#d9ff55}
+.hero-art .node-decisioning{border-top:2px solid var(--arcade)}
+.hero-art .node-foundation{min-width:0;width:134px;padding:9px 11px;border:1px solid #38d9dc71;background:#101e3be8}
+.hero-art .node-foundation span{font-size:9px;line-height:1.22;letter-spacing:-.015em;color:#c8d7eb}
+.hero-art .node-foundation sup{font-size:6px}
+.intro-copy .ecosystem-belief{border-left:2px solid var(--arcade);padding-left:15px;margin:0 0 25px;font-size:12px;line-height:1.65;color:#9fb0ce}
+.vision-stamp{display:grid;grid-template-columns:160px 1fr;gap:30px;align-items:center;border-top:1px solid #ffffff2a;border-bottom:1px solid #ffffff2a;padding:24px 0;margin:0 0 48px}
+.vision-stamp span{font:9px var(--mono);letter-spacing:.13em;color:var(--arcade)}
+.vision-stamp strong{font-size:clamp(17px,2.2vw,25px);font-weight:500;letter-spacing:-.035em;color:#f6f5ed}
+.hci-expansion{font:9px var(--mono)!important;letter-spacing:.035em;color:#d9ff55!important;margin:0 0 6px!important;text-transform:uppercase}
+.manifesto-footer>div{max-width:550px}
+.manifesto-footer .contact-lead{color:#f2f1eb;font-size:17px;line-height:1.45;margin-bottom:12px;max-width:460px}
+.manifesto-footer>div>p:last-child{font-size:12px;line-height:1.7}
+.contact-button{white-space:nowrap}
+@keyframes celestial-orbit{to{offset-distance:calc(var(--orbit-start,0%) + 100%)}}
+@keyframes mobile-celestial-drift{to{translate:var(--drift-x,2px) var(--drift-y,2px)}}
+@media(max-width:800px){
+  .hero-art .node-major{min-width:126px}
+  .hero-art .node-foundation{width:122px}
+  .vision-stamp{grid-template-columns:120px 1fr;gap:20px}
+}
+@media(max-width:520px){
+  .hero h1{font-size:clamp(42px,13.5vw,66px)}
+  .hero-art .node{offset-path:none;animation:mobile-celestial-drift 78s ease-in-out infinite alternate;offset-distance:0;}
+  .hero-art .node-rosa{left:0;top:24%;right:auto;bottom:auto;--drift-x:-2px;--drift-y:-3px}
+  .hero-art .node-hci{left:auto;right:0;top:24%;bottom:auto;--drift-x:2px;--drift-y:3px}
+  .hero-art .node-decisioning{left:50%;right:auto;top:0;bottom:auto;transform:translateX(-50%);--drift-x:0px;--drift-y:-3px}
+  .hero-art .node-sir{left:0;right:auto;top:auto;bottom:22%;--drift-x:-2px;--drift-y:2px}
+  .hero-art .node-runtime{left:auto;right:0;top:auto;bottom:22%;--drift-x:2px;--drift-y:-2px}
+  .hero-art .node-candidate{left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%);--drift-x:0px;--drift-y:3px}
+  .hero-art .node-major{min-width:0;width:106px;padding:8px 9px}
+  .hero-art .node-major span{font-size:12px}
+  .hero-art .node-major small{font-size:6px;letter-spacing:.07em}
+  .hero-art .node-decisioning{width:126px}
+  .hero-art .node-foundation{width:106px;padding:7px 8px}
+  .hero-art .node-foundation span{font-size:7.5px;line-height:1.15}
+  .hero-art .node-candidate{width:112px}
+  .hero-art .core{width:94px;height:94px}
+  .hero-art .core-glyph img{width:64px;height:64px}
+  .orbit-label.label-top{display:none}
+  .orbit-label.label-bottom{display:none}
+  .vision-stamp{grid-template-columns:1fr;gap:9px;padding:19px 0;margin-bottom:34px}
+  .vision-stamp strong{font-size:18px;line-height:1.4}
+  .manifesto-footer .contact-lead{font-size:15px}
+  .manifesto-footer>div>p:last-child{font-size:12px}
+}
+@media(max-width:360px){
+  .hero-art .node-major{width:98px;padding:7px}
+  .hero-art .node-foundation{width:98px;padding:6px}
+  .hero-art .node-decisioning{width:116px}
+  .hero-art .node-foundation span{font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){.hero-art .node{animation:none;offset-path:none}.hero-art .orbit{animation:none}}
+
+/* Keep a spaced orbit layout even in browsers without CSS motion paths. */
+.hero-art .node{offset-path:none;animation:none}
+.hero-art .node-rosa{left:0;top:20%;right:auto;bottom:auto}
+.hero-art .node-hci{left:auto;right:0;top:20%;bottom:auto}
+.hero-art .node-decisioning{left:37%;right:auto;top:0;bottom:auto;transform:none}
+.hero-art .node-sir{left:0;right:auto;top:auto;bottom:18%;transform:none}
+.hero-art .node-runtime{left:auto;right:0;top:auto;bottom:18%;transform:none}
+.hero-art .node-candidate{left:37%;right:auto;top:auto;bottom:2%;transform:none}
+@supports (offset-path:ellipse(35% 27% at 50% 50%)){
+  .hero-art .node{animation:celestial-orbit 210s linear infinite;offset-path:ellipse(35% 27% at 50% 50%);offset-anchor:center;offset-rotate:0deg;offset-distance:var(--orbit-start,0%)}
+  .hero-art .node-rosa,.hero-art .node-hci,.hero-art .node-decisioning,.hero-art .node-sir,.hero-art .node-runtime,.hero-art .node-candidate{left:auto;right:auto;top:auto;bottom:auto}
+}
+@media(max-width:520px){
+  .hero-art .node{offset-path:none;animation:mobile-celestial-drift 78s ease-in-out infinite alternate}
+  .hero-art .node-rosa{left:0;top:24%;right:auto;bottom:auto}
+  .hero-art .node-hci{left:auto;right:0;top:24%;bottom:auto}
+  .hero-art .node-decisioning{left:50%;right:auto;top:0;bottom:auto;transform:translateX(-50%)}
+  .hero-art .node-sir{left:0;right:auto;top:auto;bottom:22%;transform:none}
+  .hero-art .node-runtime{left:auto;right:0;top:auto;bottom:22%;transform:none}
+  .hero-art .node-candidate{left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%)}
+}
+@media(prefers-reduced-motion:reduce){.hero-art .node{animation:none;offset-path:none}}

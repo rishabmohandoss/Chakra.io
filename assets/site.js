@@ -35,3 +35,20 @@ if (heroArt && window.matchMedia('(pointer: fine) and (prefers-reduced-motion: n
     heroArt.style.transform = 'translate(0, 14px)';
   });
 }
+
+const journeyStages = [...document.querySelectorAll('.journey-stage')];
+const journeyStatus = document.querySelector('.journey-current');
+const journeyProgress = document.querySelector('.console-progress i');
+if (journeyStages.length && 'IntersectionObserver' in window) {
+  const stageObserver = new IntersectionObserver((entries) => {
+    const visibleStage = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visibleStage) return;
+    const index = journeyStages.indexOf(visibleStage.target);
+    journeyStages.forEach((stage, stageIndex) => stage.classList.toggle('is-active', stageIndex === index));
+    if (journeyStatus) journeyStatus.textContent = visibleStage.target.dataset.stage;
+    if (journeyProgress) journeyProgress.style.width = `${((index + 1) / journeyStages.length) * 100}%`;
+  }, { threshold: [0.25, 0.5, 0.75], rootMargin: '-24% 0px -32% 0px' });
+  journeyStages.forEach((stage) => stageObserver.observe(stage));
+}
