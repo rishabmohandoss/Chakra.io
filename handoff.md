@@ -274,37 +274,6 @@ The owner asked for the site to feel like starting a video game, not a static pa
 - Keep ROSA/HCI entry points closed until Roz explicitly changes that direction.
 - Coordinate any functional ROSA MVP work with Jordyn; it is a separate phase from corporate-site refinements.
 
-## Temporary password lock (added Oct 6, 2026; remove when the update is public)
+## Temporary password lock (removed)
 
-**What it is:** a surface-level password screen for a private preview. It is NOT security: the full content is still in the page source, and anyone with JavaScript turned off sees the site. Password: **Rishab** (any capitalization, surrounding spaces ignored).
-
-**How it was added (two pieces, nothing else touched):**
-
-1. **One file:** `assets/lock.js`. It runs before anything else on the page and:
-   - checks `localStorage` for `chakraUnlocked = "1"`. If present, it does nothing;
-   - otherwise adds the class `site-locked` to `<html>`, injects its own `<style>` that hides everything in `<body>`, and shows a full-screen password form (`.lock`);
-   - sets `sessionStorage.chakraBooted = "1"` while locked so the retro launch screen does not run behind the form (the launch screen captures the Enter key);
-   - on the correct password, saves `chakraUnlocked = "1"`, clears `chakraBooted`, and reloads so the launch screen plays normally.
-2. **One line in the `<head>` of each of the 7 pages**, directly above the inline `intro-pending` script:
-   ```html
-   <script src="/Chakra.io/assets/lock.js"></script>
-   ```
-   Pages: `index.html`, `hci/index.html`, `privacy/index.html`, `rosa/index.html`, `rosa/mvp/index.html`, `rosa/runtime/index.html`, `rosa/systems-information-readiness/index.html`.
-
-No CSS files, `motion.js`, or other scripts were changed for the lock.
-
-**To change the password:** edit `PASS` in `assets/lock.js` (write it in lowercase).
-
-**To turn it off quickly:** in `assets/lock.js` change `var ENABLED = true;` to `var ENABLED = false;`, commit, push.
-
-**To remove it completely (recommended once public):**
-```sh
-cd ~/Chakra.io
-git rm assets/lock.js
-grep -rl 'assets/lock.js' --include='*.html' . | xargs sed -i '' '/assets\/lock.js/d'
-grep -rn 'lock.js' . --include='*.html'   # should print nothing
-git commit -am "Remove temporary password lock" && git push origin main
-```
-(On Linux use `sed -i` without the `''`.) Or simply revert the commit that added it: `git log --oneline -- assets/lock.js` to find it, then `git revert <hash>`.
-
-Visitors who already unlocked keep a harmless `chakraUnlocked` key in their browser; nothing reads it after removal.
+A surface-level preview password lock (`assets/lock.js`, plus one `<script>` line per page) was added on Oct 6, 2026 in commit `19b2059` and later removed. To bring it back, run `git revert` on the removal commit.
