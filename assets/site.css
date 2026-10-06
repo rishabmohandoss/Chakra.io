@@ -383,3 +383,151 @@ html{scroll-padding-top:84px}
 .core{overflow:visible}
 .manifesto-mark img{object-fit:contain;filter:none;opacity:.5}
 @media(max-width:520px){.mark,.footer .mark{width:50px;height:40px}}
+
+/* Motion layer (assets/motion.js). Static fallbacks stay intact without JS. */
+.kw{display:inline-block;will-change:transform,opacity,filter}
+[data-magnetic]{transition-property:background-color,color,border-color,box-shadow}
+.text-link{display:inline-block}
+.live-mark{width:100%;height:100%;display:block;overflow:visible}
+.mark .live-mark{width:100%;height:100%}
+@view-transition{navigation:auto}
+.topbar{view-transition-name:site-header}
+::view-transition-old(root){animation:vt-out .28s cubic-bezier(.4,0,.6,1) both}
+::view-transition-new(root){animation:vt-in .45s cubic-bezier(.2,.7,.2,1) .06s both}
+@keyframes vt-out{to{opacity:0;filter:blur(6px);transform:translateY(-8px)}}
+@keyframes vt-in{from{opacity:0;filter:blur(6px);transform:translateY(12px)}}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+.core .core-glyph .live-mark{width:88%;max-width:128px;height:auto;margin:0 auto}
+
+/* Launch sequence + scroll flow (assets/motion.js) */
+.intro-pending .hero>*,.intro-pending .topbar{opacity:0}
+.launch{position:fixed;inset:0;z-index:100;pointer-events:auto;font:10px var(--mono);letter-spacing:.14em;color:#cfe0ff}
+.launch canvas{position:absolute;inset:0;width:100%;height:100%}
+.launch-hud{position:absolute;top:28px;left:5.2vw;right:5.2vw;display:flex;justify-content:space-between}
+.launch-status{color:var(--arcade)}
+.launch-load{position:absolute;left:50%;bottom:11vh;transform:translateX(-50%);width:min(420px,80vw);display:grid;gap:12px;text-align:center;transition:opacity .4s}
+.launch-load b{font-weight:500}
+.launch-load i{display:block;height:2px;background:#ffffff1f}
+.launch-load u{display:block;height:100%;background:var(--arcade);box-shadow:0 0 12px var(--arcade);transform-origin:left;transform:scaleX(0)}
+.launch-load em{font-style:normal;color:var(--arcade)}
+.launch.arrived .launch-load,.launch.arrived .launch-hud{opacity:0;transition:opacity .5s}
+.launch-skip{position:absolute;right:5.2vw;bottom:5vh;background:none;border:1px solid #ffffff3a;color:#cfe0ff;font:inherit;letter-spacing:.14em;padding:10px 14px;cursor:pointer}
+.launch-skip:hover{border-color:var(--arcade);color:var(--arcade)}
+.scroll-beam{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;background:var(--arcade);box-shadow:0 0 10px var(--arcade);transform-origin:left;transform:scaleX(0);pointer-events:none}
+.hero h1{transform-origin:20% 60%}
+.flow{transition-property:opacity!important}
+
+/* ==========================================================================
+   Type system + orbit (Oct 2026 refinement)
+   One modular scale (~1.25 "major third", fluid via clamp), used site-wide.
+   Floor: no text below 13px. This final layer wins over the older layers above,
+   so font sizes here use !important on purpose.
+   ========================================================================== */
+:root{
+  --fs-label:13px;                               /* mono kickers, tags, meta */
+  --fs-small:15px;                               /* nav, buttons, captions */
+  --fs-body:clamp(16px,.35vw + 14.6px,18px);     /* paragraphs */
+  --fs-lead:clamp(18px,.6vw + 15.5px,22px);      /* intro/lead paragraphs */
+  --fs-h3:clamp(22px,1.4vw + 16px,32px);         /* card + row titles */
+  --fs-h2:clamp(38px,4.6vw + 14px,84px);         /* section headlines */
+  --fs-display:clamp(56px,8.4vw + 16px,150px);   /* hero headline */
+  --gutter:clamp(20px,6vw,104px);
+}
+/* labels */
+.eyebrow,.section-kicker,.section-kicker span,.world-number,.world-enter,.hero-index,.route-id,.route-note,
+.footer>span,.footer a,.footer>a:last-child,.world-kicker,.world-count,.route-breadcrumb,.destination>span,.destination small,
+.hci-status small,.hud-readout,.hud-readout *,.signal-candidate,.gate-portal small,.journey-current,.console-progress,
+.journey-stage small,.journey-stage span,.stage-tag,.supported-by h2,#supported-heading,.launch-skip{font-size:var(--fs-label)!important;letter-spacing:.1em!important}
+/* nav + actions */
+.main-nav a,.nav-cta,.text-link,.contact-button,.world-action,.support-list>span{font-size:var(--fs-small)!important}
+/* body copy */
+p,.hero-bottom p,.intro-copy p,.rosa-detail-head>p,.manifesto-footer p,.world-card-bottom p,.world-lede,.world-intro>p,
+.route-hero>p:not(.eyebrow),.hci-status p,li{font-size:var(--fs-body)!important;line-height:1.7}
+.contact-lead,.intro-copy p:first-child,.gap-statement,.ecosystem-lede{font-size:var(--fs-lead)!important;line-height:1.55}
+/* titles */
+h3,.route-title,.destination strong,.hci-status h3{font-size:var(--fs-h3)!important;letter-spacing:-.02em!important;line-height:1.15}
+.world-card h3{font-size:clamp(44px,5vw,72px)!important;letter-spacing:-.04em!important}
+h2:not(#supported-heading),.world-intro h2,.world-end h2{font-size:var(--fs-h2)!important;letter-spacing:-.035em!important;line-height:1.02!important}
+h1,.hero h1,.world-hero h1,.route-hero h1{font-size:var(--fs-display)!important;letter-spacing:-.045em!important;line-height:.95!important}
+h1 em,h2 em{letter-spacing:-.02em!important}
+/* keep everything off the page edges: drop decorative edge micro-labels */
+.card-coordinate,.hci-coordinate,.orbit-label,.route-index,.world-scroll{display:none!important}
+.section-pad,.world-intro,.destinations,.route-page,.world-end,.manifesto,.footer{padding-left:var(--gutter)!important;padding-right:var(--gutter)!important}
+.hero{padding-left:var(--gutter)!important;padding-right:var(--gutter)!important}
+.hero-index{left:var(--gutter)!important;right:var(--gutter)!important}
+.footer{flex-wrap:wrap;gap:18px 28px;height:auto!important;min-height:91px;padding-top:26px!important;padding-bottom:26px!important}
+
+/* hero orbit: very slow clockwise drift of the whole system, readable node text */
+.hero-art .node{animation:celestial-orbit 150s linear infinite!important;offset-path:ellipse(41% 35% at 50% 50%)!important}
+.hero-art .node-major span{font-size:19px!important}
+.hero-art .node-major small,.hero-art .node small{font-size:12px!important;letter-spacing:.08em!important}
+.hero-art .node-foundation{width:auto!important;max-width:190px}
+.hero-art .node-foundation span{font-size:15px!important;line-height:1.25!important;letter-spacing:0!important}
+.hero-art .node sup{font-size:10px!important}
+.hero-art .orbit{animation:ring-cw 240s linear infinite!important}
+.hero-art .orbit-b{animation-duration:320s!important}
+.hero-art .orbit-c{animation-duration:400s!important}
+@keyframes ring-cw{from{rotate:0deg}to{rotate:360deg}}
+@media(max-width:800px){
+  .hero-art .node{animation:celestial-orbit 150s linear infinite!important;offset-path:ellipse(40% 40% at 50% 50%)!important;translate:none!important}
+  .hero-art .node-major{min-width:0!important;max-width:150px;padding:10px 12px!important}
+  .hero-art .node-major span{font-size:16px!important}
+  .hero-art .node-foundation{max-width:140px;padding:8px 10px!important}
+  .hero-art .node-foundation span{font-size:13px!important}
+  .hero-art .node small{font-size:11px!important}
+}
+@media(prefers-reduced-motion:reduce){.hero-art .node,.hero-art .orbit{animation:none!important}}
+
+/* retro launch screen */
+.boot{position:absolute;inset:0;display:grid;place-items:center;background:#05070f;font-family:'Press Start 2P',var(--mono);color:#d9ff55;overflow:hidden}
+.boot:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;background:repeating-linear-gradient(0deg,#0000 0 2px,#00000059 2px 4px);mix-blend-mode:multiply}
+.boot:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;background:radial-gradient(ellipse at center,#0000 55%,#000c 100%);animation:crt-flicker .12s steps(2) infinite}
+.boot-screen{position:relative;z-index:2;width:min(760px,calc(100vw - 40px));display:grid;gap:26px;text-align:center}
+.boot-title{font-size:clamp(30px,7vw,64px);line-height:1.1;color:#d9ff55;text-shadow:4px 4px 0 #1d3f73,0 0 22px #d9ff5566;letter-spacing:.04em}
+.boot-sub{font-size:clamp(10px,1.4vw,13px);color:#8fb4ff;line-height:1.8}
+.boot-log{text-align:left;font-size:clamp(10px,1.5vw,14px);line-height:2.1;color:#cfe0ff;min-height:9.5em;margin:0;padding:0;list-style:none}
+.boot-log li{font-size:inherit!important;line-height:inherit;white-space:pre-wrap}
+.boot-log .ok{color:#d9ff55}
+.boot-bar{display:grid;grid-template-columns:repeat(20,1fr);gap:5px;padding:6px;border:3px solid #cfe0ff}
+.boot-bar i{height:18px;background:#1a2442}
+.boot-bar i.on{background:#d9ff55;box-shadow:0 0 8px #d9ff5599}
+.boot-start{font-size:clamp(14px,2.4vw,22px);color:#fff;opacity:0}
+.boot-start.blink{animation:blink 1s steps(1) infinite}
+.boot-hint{font-size:10px;color:#8fb4ff99}
+.boot.off{animation:crt-off .45s cubic-bezier(.6,0,.9,.4) forwards}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes crt-flicker{50%{opacity:.92}}
+@keyframes crt-off{0%{transform:scale(1,1);filter:brightness(1)}55%{transform:scale(1,.006);filter:brightness(3)}100%{transform:scale(0,.004);filter:brightness(4);opacity:0}}
+.launch canvas{opacity:0}
+.launch.warping canvas{opacity:1}
+/* floor for remaining labels */
+.footer-links,.footer-links *,.gap-index,.wg-label,.journey-console span,.journey-console small,.journey-console b,.console-top,.console-top *,
+.console-readout,.console-readout *,.stage-status,.journey-stage>*:not(h3):not(p),.hero-art .node small,.node-major small{font-size:var(--fs-label)!important;letter-spacing:.08em!important}
+.console-origin,.console-destination,.console-core{font-size:15px!important}
+sup{font-size:max(12px,.45em)!important}
+.hero-art .node sup{font-size:12px!important}
+@media(max-width:520px){
+  :root{--fs-display:clamp(40px,11vw,56px);--fs-h2:clamp(34px,9vw,44px)}
+  .route-hero h1,.world-hero h1{overflow-wrap:anywhere}
+  .route-orbit{opacity:.5}
+  .hero-art .node-major small,.hero-art .node small{font-size:12px!important}
+}
+.support-list>span *{font-size:var(--fs-label)!important}
+.console-visual span,.console-visual b,.console-visual i{font-size:13px!important}
+@media(max-width:520px){
+  .hero-art{width:100%!important;right:auto!important;left:auto!important;margin:0!important}
+  .hero-art .node{offset-path:ellipse(33% 40% at 50% 50%)!important}
+  .hero-art .node-major{max-width:128px}
+  .hero-art .node-foundation{max-width:118px}
+  .wg-label{display:none!important}
+  .route-orbit{right:50%!important;transform:translate(50%,-50%)!important;opacity:.22}
+  .hero .round-link{flex:0 0 42px}
+}
+@media(max-width:800px){
+  .hero{display:flex!important;flex-direction:column;align-items:stretch;height:auto!important;max-height:none!important;min-height:0!important;padding-top:118px!important;padding-bottom:96px!important}
+  .hero-art{position:relative!important;inset:auto!important;width:100%!important;max-width:560px;height:min(92vw,460px)!important;min-height:0!important;opacity:1!important;margin:34px auto 0!important}
+  .nav-cta{white-space:nowrap}
+}
+@media(max-width:520px){.nav-cta{font-size:13px!important;padding:9px 11px!important}.nav-cta:before{display:none}}
+@media(max-width:800px){.hero-art{transform:none!important;transition:none!important}}
+.world-card-bottom{flex-wrap:wrap;gap:14px 24px}.world-card-bottom>div{flex:1 1 260px;min-width:0}.world-enter{white-space:nowrap}
