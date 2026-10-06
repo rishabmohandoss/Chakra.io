@@ -126,6 +126,13 @@
   };
   if (root.classList.contains('intro-pending')) {
     try { sessionStorage.setItem('chakraBooted', '1'); } catch (e) {}
+    // Always land on the top of the page after the launch screen: no restored scroll, no hash jump,
+    // and the page underneath can't scroll while the boot screen is up.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    const toTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    toTop();
+    root.classList.add('booting');
     const overlay = document.createElement('div');
     overlay.className = 'launch';
     overlay.setAttribute('aria-hidden', 'true');
@@ -162,6 +169,8 @@
     const finish = (fast) => {
       if (done) return; done = true;
       timers.forEach(clearTimeout);
+      toTop();
+      root.classList.remove('booting');
       assemble(fast);
       animate(overlay, { opacity: 0 }, { duration: fast ? 0.3 : 0.6 }).then(() => overlay.remove());
     };
@@ -180,6 +189,7 @@
     overlay.addEventListener('touchstart', launch, { once: true, passive: true });
     addEventListener('keydown', function onKey(e) {
       if (done) return removeEventListener('keydown', onKey);
+      e.preventDefault();
       if (e.key === 'Escape') finish(true); else launch();
     });
     overlay.querySelector('.launch-skip').addEventListener('click', () => finish(true));
