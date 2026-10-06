@@ -8,7 +8,7 @@ This file consolidates Rosalind “Roz” Griffie’s website and product-world 
 - Production branch: `main`
 - Hosting: GitHub Pages at `https://rishabmohandoss.github.io/Chakra.io/`
 - Site type: static HTML, CSS, and JavaScript; no build step.
-- Latest code commit when this handoff was last updated: `7757c85` (new logo/favicon and magenta rule). Earlier: `f624b9d` (homepage readability and navigation fixes).
+- Latest code commit when this handoff was last updated: `cb5972d` (Vanta HALO hero). Before that: `7757c85` (new logo/favicon and magenta rule). Earlier: `f624b9d` (homepage readability and navigation fixes).
 - GitHub Pages publishes the project from `main`; pushes there update the public site.
 - Keep the `/Chakra.io/` path prefix in asset and internal links. The site is a GitHub Pages project site.
 
@@ -193,11 +193,70 @@ Roz asked to remove the placeholder logo and try her concept, taking creative li
   - Before shipping any visual change, check that no pink or purple has been introduced (computed-style scan or visual review). Do not use pink in new components, hover states, glows, or gradients.
 - Logo CSS lives in the "Logo layer" block at the end of `assets/site.css`.
 
+## Motion, launch screen, and type system (Oct 6, 2026 — owner direction)
+
+The owner asked for the site to feel like starting a video game, not a static page. Roz's earlier \"slow celestial drift\" direction still governs the orbit. **The boot screen, warp, and HALO are bolder than Roz's original guidance and need her sign-off.**
+
+### Libraries (all vendored, MIT, no build step, no CDN)
+- `assets/vendor/motion.js` — Motion v14 (motion.dev), UMD global `Motion`.
+- `assets/vendor/three.r134.min.js` + `assets/vendor/vanta.halo.min.js` — three.js r134 and Vanta v0.5.24 HALO (~620KB together). Loaded lazily, desktop only.
+- All site motion code is in `assets/motion.js`, numbered by section.
+
+### Retro launch screen (`motion.js` §4)
+- Plays on the **first page of a browser session** (any page), tracked with the `chakraBooted` key in `sessionStorage`. A new tab or visit shows it again.
+- An inline `<head>` script adds `intro-pending` to `<html>` before first paint so content doesn't flash. A 9s safety timeout removes it if JS fails.
+- Sequence (~4s):
+  1. CRT screen (scanlines, flicker, Press Start 2P pixel font) with the CHAKRA.IO title and boot log.
+  2. A 20-block loading bar fills, then ▶ PRESS START blinks.
+  3. It auto-launches, or launches early on Enter, click or tap.
+  4. A CRT power-off squeeze, then a starfield warp, then the hero headline flies in and the page assembles.
+- Skip: the Skip button or Escape. Scrolling does **not** skip (that was removed on purpose).
+
+### Other motion
+- **Living logo:** squares stream into the boundary line in the header and hero core. The hero core mark drifts toward the cursor (hero only).
+- **Kinetic headlines:** h1/h2 reveal word by word. The hero h1 is excluded (the launch handles it). `#supported-heading` is excluded.
+- **Scroll:** the hero copy and orbit scale and fade as you scroll past (fly-through). Cards, rows, kickers and supporters spring in when they enter the viewport. A lime progress bar runs along the top of the window.
+- **Magnetic CTAs:** mouse only.
+- **Cross-page View Transitions:** CSS `@view-transition`. The header persists.
+- **Orbit:** the six nodes orbit **clockwise**, one lap per 150s. The rings turn clockwise over 240–400s. This applies on mobile too. Direction was verified in the browser.
+- **Vanta HALO** (`motion.js` §4b):
+  - Hero background, desktop only (>800px, WebGL required). Loads after the boot screen.
+  - Destroyed when the hero scrolls out of view and recreated on return. Mouse controls are on.
+  - **HALO's shader generates pink/purple regardless of options.** A CSS filter on `.hero .vanta-canvas` forces a single blue hue. Never remove it (magenta rule).
+  - Vanta wraps the hero's whitespace text nodes in `<span>`s. `.hero>span:not([class]){display:contents}` keeps them from breaking the grid.
+
+### Rules for any new motion
+- **Reduced motion:** everything must respect `prefers-reduced-motion`. When it is on, `motion.js` exits early: no boot, no HALO, static content.
+- **No pink:** no pink or magenta in any effect, glow, canvas or gradient. Verify with a computed-style and pixel check.
+- **Performance:** animate only transform, opacity and filter. Pause or destroy effects while they are off screen.
+
+### Type system (final layer in `assets/site.css`)
+- One fluid scale, about a 1.25 \"major third\", defined as tokens on `:root`. Floor: **no text below 15px**, except ®/™ superscripts.
+- Desktop maximums:
+
+| Token | Use | Size |
+|---|---|---|
+| `--fs-label` | mono labels | 15px |
+| `--fs-small` | nav/buttons | 16px |
+| `--fs-body` | body text | 17–20px |
+| `--fs-lead` | lead text | 19–24px |
+| `--fs-h3` | card/row titles | 22–32px |
+| `--fs-h2` | section headlines | 38–84px |
+| `--fs-display` | hero headline | 56–150px |
+
+- Orbit node titles are 22px (major) and 17px (foundation).
+- Because older CSS layers above hard-code sizes, the final layer uses `!important` on sizes. A cleanup that removes the old layers would let those `!important`s go.
+- Decorative edge micro-labels (coordinates, orbit corner labels, route index) were removed. Content keeps a `--gutter` of at least 20px.
+- Section vertical padding is `--section-y` (64–104px). Two-column section heads use a balanced grid, centered vertically.
+- **Mobile:** the hero stacks the copy above the orbit. The hero h1 is 40–56px.
+
 ## Current source map
 
 - `index.html` — corporate home, primary navigation, information gap, ecosystem, technology list, supporters, contact, and footer.
 - `assets/site.css` — shared corporate styles, mobile rules, typography, motion, and navigation.
 - `assets/logo-mark.svg`, `assets/logo-watermark.svg`, `assets/favicon.svg` (+ PNG icons) — brand marks (see logo section).
+- `assets/motion.js` — launch screen, HALO loader, headline/scroll/logo/magnetic motion.
+- `assets/vendor/` — Motion, three.js r134, Vanta HALO (vendored).
 - `assets/site.js` — reveal effects, mobile navigation, and ROSA story progress behavior.
 - `assets/world.css` — ROSA/HCI and dedicated-world presentation.
 - `rosa/index.html` — consumer-facing ROSA story.
@@ -207,6 +266,7 @@ Roz asked to remove the placeholder logo and try her concept, taking creative li
 
 ## Pending inputs
 
+- Roz's approval of the retro boot screen, warp, and HALO background (they go beyond her "slow celestial drift" direction).
 - Roz's feedback on the new logo/favicon concept (she invited iteration; blue tone and square density are my choices and easy to adjust). Replace with an official logo if one is supplied.
 - Receive approved logo assets and approval for all five supporters before replacing the text wordmarks with official marks.
 - Obtain Chakra’s official LinkedIn, Bluesky, and YouTube profile URLs before changing the footer social destinations.
