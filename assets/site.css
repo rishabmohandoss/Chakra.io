@@ -567,3 +567,16 @@ sup{font-size:max(12px,.45em)!important}
   filter:grayscale(1) sepia(1) hue-rotate(168deg) saturate(2.2) brightness(.8);opacity:.36;mix-blend-mode:screen}
 .hero>span:not([class]){display:contents}
 .booting,.booting body{overflow:hidden!important}
+/* Supporters: approved logos supplied by owner (white monochrome, Oct 6). Magenta-free by construction. */
+.support-list{grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(20px,3vw,48px)!important;align-items:center}
+.supporter{margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:96px}
+.supporter img{display:block;height:clamp(38px,3.6vw,54px);width:auto;max-width:100%;object-fit:contain;opacity:.72;transition:opacity .3s,transform .3s}
+.supporter-njeda img,.supporter-njit img{height:clamp(46px,4.4vw,66px)}
+.supporter:hover img{opacity:1;transform:translateY(-2px)}
+.supporter figcaption{font:var(--fs-label) var(--mono);letter-spacing:.1em;color:#9eacc5;text-transform:uppercase}
+@media(max-width:800px){.support-list{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:520px){.support-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}.supporter img{height:40px}}
+/* Marquee: 8 phrase groups (4 per loop half) so it never runs out on wide screens */
+.intro-marquee{font-size:var(--fs-label)!important}
+.intro-marquee div{animation:marquee 60s linear infinite}
+.supporter-nsf-icorps img{height:clamp(48px,4.6vw,70px)}

@@ -269,7 +269,7 @@ The owner asked for the site to feel like starting a video game, not a static pa
 
 - Roz's approval of the retro boot screen, warp, and HALO background (they go beyond her "slow celestial drift" direction).
 - Roz's feedback on the new logo/favicon concept (she invited iteration; blue tone and square density are my choices and easy to adjust). Replace with an official logo if one is supplied.
-- Receive approved logo assets and approval for all five supporters before replacing the text wordmarks with official marks.
+- Supporter logos: the owner supplied logo files on Oct 6, 2026. They are in `assets/supporters/`, converted to white monochrome on transparent, with captions for Princeton (Office of Innovation) and Rutgers (MBS). The Rutgers and Princeton files are the parent-university marks; swap in unit-specific marks if Roz provides them. Confirm Roz has the institutions' approval before wider launch.
 - Obtain Chakra’s official LinkedIn, Bluesky, and YouTube profile URLs before changing the footer social destinations.
 - Keep ROSA/HCI entry points closed until Roz explicitly changes that direction.
 - Coordinate any functional ROSA MVP work with Jordyn; it is a separate phase from corporate-site refinements.
