@@ -236,22 +236,41 @@
   const haloEl = hero || document.querySelector('.world-hero');
   const haloOk = haloEl && window.matchMedia('(min-width: 801px)').matches && !!window.WebGLRenderingContext;
   let halo = null, haloLoading = null;
+  /* The halo is mounted on its own layer centered on the hero diagram (the chakra/ROSA core),
+     so it sits around the mark instead of the middle of the hero. It animates on its own; no cursor needed. */
+  const haloArt = haloEl && haloEl.querySelector('.hero-art .core, .gate-portal, .wg-core, .hero-art, .world-graphic');
+  let haloLayer = null;
+  const placeHalo = () => {
+    if (!haloLayer) return;
+    const h = haloEl.getBoundingClientRect(), a = (haloArt || haloEl).getBoundingClientRect();
+    const size = Math.round(h.height * 1.1);
+    Object.assign(haloLayer.style, { width: size + 'px', height: size + 'px',
+      left: Math.round(a.left - h.left + a.width / 2 - size / 2) + 'px', top: Math.round(a.top - h.top + a.height / 2 - size / 2) + 'px' });
+  };
   const haloStart = () => {
     if (halo) return;
     haloLoading = haloLoading || loadScript('/Chakra.io/assets/vendor/three.r134.min.js').then(() => loadScript('/Chakra.io/assets/vendor/vanta.halo.min.js'));
     haloLoading.then(() => {
       if (halo || !window.VANTA) return;
+      haloLayer = document.createElement('div');
+      haloLayer.className = 'halo-layer';
+      haloLayer.setAttribute('aria-hidden', 'true');
+      haloEl.prepend(haloLayer);
+      placeHalo();
+      // re-center once entrance animations (which move the diagram) have settled
+      setTimeout(placeHalo, 1400);
       halo = window.VANTA.HALO({
-        el: haloEl, THREE: window.THREE, mouseControls: true, touchControls: false, gyroControls: false,
+        el: haloLayer, THREE: window.THREE, mouseControls: false, touchControls: false, gyroControls: false,
         minHeight: 200, minWidth: 200,
         baseColor: 0x1d3f73, backgroundColor: 0x000000,
-        amplitudeFactor: 1.1, ringFactor: 1.2, rotationFactor: 0.6, size: 1.35, xOffset: 0.2, yOffset: 0,
+        amplitudeFactor: 1.4, ringFactor: 1.2, rotationFactor: 1.1, speed: 1.3, size: 1.1, xOffset: 0, yOffset: 0,
       });
       haloEl.classList.add('has-halo');
-      animate(haloEl.querySelector('.vanta-canvas'), { opacity: [0, 0.36] }, { duration: 1.6 });
+      animate(haloLayer.querySelector('.vanta-canvas'), { opacity: [0, 0.36] }, { duration: 1.6 });
     }).catch(() => {});
   };
-  const haloStop = () => { if (halo) { halo.destroy(); halo = null; haloEl.classList.remove('has-halo'); } };
+  const haloStop = () => { if (halo) { halo.destroy(); halo = null; haloLayer.remove(); haloLayer = null; haloEl.classList.remove('has-halo'); } };
+  window.addEventListener('resize', () => { if (halo) { placeHalo(); halo.resize(); } });
   if (haloOk) {
     const whenBooted = () => new Promise((res) => {
       if (!root.classList.contains('intro-pending') && !document.querySelector('.launch')) return res();

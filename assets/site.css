@@ -585,3 +585,7 @@ sup{font-size:max(12px,.45em)!important}
   filter:grayscale(1) sepia(1) hue-rotate(168deg) saturate(2.2) brightness(.8);opacity:.36;mix-blend-mode:screen}
 .world-hero>*:not(.vanta-canvas){position:relative;z-index:1}
 .world-hero>span:not([class]){display:contents}
+/* Halo layer: square, centered on the hero diagram; the canvas fills it */
+.hero>.halo-layer,.world-hero>.halo-layer{position:absolute!important;z-index:0!important;pointer-events:none;mix-blend-mode:screen}
+.halo-layer .vanta-canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:0!important;pointer-events:none;
+  filter:grayscale(1) sepia(1) hue-rotate(168deg) saturate(2.2) brightness(.8);opacity:.36;mix-blend-mode:screen}
