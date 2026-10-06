@@ -8,7 +8,7 @@ This file consolidates Rosalind “Roz” Griffie’s website and product-world 
 - Production branch: `main`
 - Hosting: GitHub Pages at `https://rishabmohandoss.github.io/Chakra.io/`
 - Site type: static HTML, CSS, and JavaScript; no build step.
-- Current commit when this handoff was written: `f624b9d` (homepage readability and navigation fixes).
+- Latest code commit when this handoff was last updated: `7757c85` (new logo/favicon and magenta rule). Earlier: `f624b9d` (homepage readability and navigation fixes).
 - GitHub Pages publishes the project from `main`; pushes there update the public site.
 - Keep the `/Chakra.io/` path prefix in asset and internal links. The site is a GitHub Pages project site.
 
@@ -77,7 +77,7 @@ Roz said to stop at the consumer-facing upfront ROSA website journey for now. Th
 
 ### Ecosystem orbit and hierarchy — original company website feedback
 
-- Keep the central Chakra symbol exactly as it is as a placeholder until the official logo is supplied. The intended final mark is the chakra/mandala symbol.
+- The old chakra/mandala flower placeholder has been removed (see "Logo, favicon, and magenta rule" below). The hero core now shows the new information-field mark. If Roz supplies an official logo, replace `assets/logo-mark.svg` and `assets/favicon.svg`.
 - The orbital diagram should contain six connected celestial elements: **ROSA**, **Human-Computer Interaction (HCI)**, **Decisioning Intelligence**, **Systems Information Readiness™**, **Runtime Information Transformation™**, and **Information Candidate™**.
 - Give ROSA, HCI, and Decisioning Intelligence greater prominence as major products/technologies/dimensions. The three foundational elements (Systems Information Readiness, Runtime Information Transformation, and Information Candidate) can be smaller or visually differentiated.
 - Add the subtitle **Human-Computer Interaction** to the HCI orbit node. All six bodies belong to one connected universe.
@@ -164,7 +164,7 @@ Roz said to stop at the consumer-facing upfront ROSA website journey for now. Th
 These are the website owner’s directions, separate from Roz’s source feedback:
 
 - Keep a video-game influence in the visual design, with animated transitions inspired by landonorris.com.
-- The brand symbol should be a chakra/mandala, not a letter C.
+- The brand symbol was originally a chakra/mandala, not a letter C. Roz's Oct 6 email superseded this with the information-field logo described below.
 - Support both desktop and mobile without distorting the layout.
 - The owner most recently said not to prioritize or change the social links yet. The current footer social links may still point to general platform homepages; wait for official profile URLs before changing those destinations.
 
@@ -177,10 +177,27 @@ Recent fixes already pushed to `main` in `f624b9d`:
 - Updated the hero orbit label to Information Intelligence to match its accessible description.
 - Disabled homepage ROSA/HCI cards and ROSA destination links so they do not imply that the product experiences are open.
 
+## Logo, favicon, and magenta rule (Roz email, Oct 6, 2026 — "Remove The Current Chakra Logo Place Holder")
+
+Roz asked to remove the placeholder logo and try her concept, taking creative liberties.
+
+- **Concept:** scattered squares represent information moving toward the business enterprise. They reach a boundary, where they are stopped and checked for accuracy and "readiness" before proceeding into the organization — stopped, eventually, by ROSA.
+- **Implemented:**
+  - `assets/logo-mark.svg` — squares (blue fading to white, growing toward the boundary) fan toward a vertical magenta boundary line with a glowing white node. Used in the header and footer wordmark (all pages) and in the hero core.
+  - `assets/logo-watermark.svg` — pink-free monochrome version, used only for the large faded background mark in the contact section.
+  - `assets/favicon.svg` — simplified bolder version on a navy rounded square. `favicon-32.png` and `apple-touch-icon.png` are linked in every page `<head>`. `icon-192.png` is generated but not linked yet (for a future web manifest).
+  - `assets/mandala.svg` (old flower placeholder) was deleted.
+- **MAGENTA RULE (strict, from Roz):** the magenta/pink on the boundary is the **only** use of magenta on the site. It is a quiet homage to women in technology and Chakra's woman-founded identity — not a brand color. **No decorative pink/magenta anywhere else.** The exclusivity is what gives the mark meaning.
+  - The only pink in the repo is the boundary line (`#ff2fa8`) inside `logo-mark.svg` and `favicon.svg`.
+  - The `--magenta` CSS variable was removed. Former pink accents are now lime (`--arcade`, `#d9ff55`). The HCI card's purple gradient is now navy.
+  - Before shipping any visual change, check that no pink or purple has been introduced (computed-style scan or visual review). Do not use pink in new components, hover states, glows, or gradients.
+- Logo CSS lives in the "Logo layer" block at the end of `assets/site.css`.
+
 ## Current source map
 
 - `index.html` — corporate home, primary navigation, information gap, ecosystem, technology list, supporters, contact, and footer.
 - `assets/site.css` — shared corporate styles, mobile rules, typography, motion, and navigation.
+- `assets/logo-mark.svg`, `assets/logo-watermark.svg`, `assets/favicon.svg` (+ PNG icons) — brand marks (see logo section).
 - `assets/site.js` — reveal effects, mobile navigation, and ROSA story progress behavior.
 - `assets/world.css` — ROSA/HCI and dedicated-world presentation.
 - `rosa/index.html` — consumer-facing ROSA story.
@@ -190,6 +207,7 @@ Recent fixes already pushed to `main` in `f624b9d`:
 
 ## Pending inputs
 
+- Roz's feedback on the new logo/favicon concept (she invited iteration; blue tone and square density are my choices and easy to adjust). Replace with an official logo if one is supplied.
 - Receive approved logo assets and approval for all five supporters before replacing the text wordmarks with official marks.
 - Obtain Chakra’s official LinkedIn, Bluesky, and YouTube profile URLs before changing the footer social destinations.
 - Keep ROSA/HCI entry points closed until Roz explicitly changes that direction.
