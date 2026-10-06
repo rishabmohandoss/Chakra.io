@@ -531,3 +531,29 @@ sup{font-size:max(12px,.45em)!important}
 @media(max-width:520px){.nav-cta{font-size:13px!important;padding:9px 11px!important}.nav-cta:before{display:none}}
 @media(max-width:800px){.hero-art{transform:none!important;transition:none!important}}
 .world-card-bottom{flex-wrap:wrap;gap:14px 24px}.world-card-bottom>div{flex:1 1 260px;min-width:0}.world-enter{white-space:nowrap}
+
+/* Density + legibility pass (Oct 6): tighter vertical rhythm, two-column heads that share
+   the width, larger labels. Label floor raised from 13px to 15px. */
+:root{--fs-label:15px;--fs-small:16px;--fs-body:clamp(17px,.4vw + 15px,20px);--fs-lead:clamp(19px,.7vw + 16px,24px);--section-y:clamp(64px,7vw,104px)}
+.section-pad,.intro,.ecosystem,.rosa-detail{padding-top:var(--section-y)!important;padding-bottom:var(--section-y)!important}
+.rosa-detail-head,.intro-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;gap:clamp(28px,5vw,80px)!important;align-items:center!important;padding:clamp(36px,4vw,56px) 0 clamp(32px,3.5vw,48px)!important}
+.rosa-detail-head>p,.intro-copy p,.intro-copy{max-width:560px!important;font-size:var(--fs-lead)!important;line-height:1.6!important}
+.manifesto{min-height:0!important;padding-top:clamp(40px,4vw,56px)!important;padding-bottom:clamp(56px,6vw,88px)!important}
+.manifesto h2{margin:clamp(40px,5vw,72px) 0 clamp(32px,4vw,52px)!important}
+.manifesto-footer p{max-width:520px!important}
+@media(max-width:800px){.rosa-detail-head,.intro-grid{grid-template-columns:1fr!important}}
+/* hero labels */
+.hero .eyebrow{font-size:16px!important}
+.hero-index{font-size:15px!important}
+.hero-art .node-major span{font-size:22px!important}
+.hero-art .node-major small,.hero-art .node small{font-size:14px!important}
+.hero-art .node-foundation span{font-size:17px!important}
+.hero-art .node{padding:14px 16px!important}
+.main-nav a{font-size:16px!important}
+@media(max-width:800px){
+  .hero-art .node-major span{font-size:17px!important}
+  .hero-art .node-major small,.hero-art .node small{font-size:12px!important}
+  .hero-art .node-foundation span{font-size:14px!important}
+  .hero-art .node{padding:9px 11px!important}
+}
+.hero-bottom{max-width:560px!important}.hero-bottom p{max-width:440px!important}

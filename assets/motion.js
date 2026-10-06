@@ -121,10 +121,12 @@
     if (heroTitle) animate(heroTitle, { opacity: [0, 1], scale: [fast ? 0.7 : 0.08, 1], filter: ['blur(24px)', 'blur(0px)'] },
       { duration: fast ? 0.9 : 1.5, ease: [0.16, 1, 0.3, 1] });
     animate('.topbar', { y: [-90, 0], opacity: [0, 1] }, { duration: 0.8, delay: d + 0.7, ease: [0.2, 0.8, 0.2, 1] });
+    if (!hero) return;
     animate('.hero-art', { opacity: [0, 1], scale: [0.55, 1], rotate: [-25, 0] }, { duration: 1.6, delay: d + 0.45, ease: [0.16, 1, 0.3, 1] });
     animate('.hero .eyebrow, .hero-bottom, .hero-index', { opacity: [0, 1], y: [30, 0] }, { duration: 0.9, delay: stagger(0.12, { startDelay: d + 0.9 }), ease: [0.2, 0.8, 0.2, 1] });
   };
-  if (hero && root.classList.contains('intro-pending')) {
+  if (root.classList.contains('intro-pending')) {
+    try { sessionStorage.setItem('chakraBooted', '1'); } catch (e) {}
     const overlay = document.createElement('div');
     overlay.className = 'launch';
     overlay.setAttribute('aria-hidden', 'true');
@@ -149,14 +151,14 @@
     ];
     const timers = [];
     const later = (ms, fn) => timers.push(setTimeout(fn, ms));
-    lines.forEach(([txt, ok], i) => later(180 + i * 300, () => {
+    lines.forEach(([txt, ok], i) => later(250 + i * 420, () => {
       const li = document.createElement('li');
       li.textContent = txt;
       if (ok) { const s = document.createElement('span'); s.className = 'ok'; s.textContent = ok; li.appendChild(s); }
       log.appendChild(li);
     }));
-    cells.forEach((c, i) => later(250 + i * 85 + (i > 13 ? 120 : 0), () => c.classList.add('on')));
-    later(2150, () => startEl.classList.add('blink'));
+    cells.forEach((c, i) => later(300 + i * 105 + (i > 13 ? 180 : 0), () => c.classList.add('on')));
+    later(2600, () => startEl.classList.add('blink'));
 
     /* warp starfield */
     const canvas = overlay.querySelector('canvas'), ctx = canvas.getContext('2d');
@@ -207,7 +209,7 @@
         setTimeout(() => boot.remove(), 460);
       }, 160);
     };
-    later(2900, launch);
+    later(4200, launch);
     overlay.addEventListener('click', (e) => { if (!e.target.closest('.launch-skip')) launch(); });
     overlay.addEventListener('touchstart', launch, { once: true, passive: true });
     addEventListener('keydown', function onKey(e) {
@@ -215,7 +217,6 @@
       if (e.key === 'Escape') finish(true); else launch();
     });
     overlay.querySelector('.launch-skip').addEventListener('click', () => finish(true));
-    addEventListener('wheel', () => finish(true), { once: true, passive: true });
   } else if (hero) {
     assemble(true);
   }
