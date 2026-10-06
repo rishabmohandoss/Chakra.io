@@ -233,7 +233,8 @@
      so it is loaded lazily from local files and the effect is torn down while the hero is off screen.
      Colors are kept to the site's navy/blue: magenta belongs only to the logo boundary. */
   const loadScript = (src) => new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
-  const haloOk = hero && window.matchMedia('(min-width: 801px)').matches && !!window.WebGLRenderingContext;
+  const haloEl = hero || document.querySelector('.world-hero');
+  const haloOk = haloEl && window.matchMedia('(min-width: 801px)').matches && !!window.WebGLRenderingContext;
   let halo = null, haloLoading = null;
   const haloStart = () => {
     if (halo) return;
@@ -241,22 +242,22 @@
     haloLoading.then(() => {
       if (halo || !window.VANTA) return;
       halo = window.VANTA.HALO({
-        el: hero, THREE: window.THREE, mouseControls: true, touchControls: false, gyroControls: false,
+        el: haloEl, THREE: window.THREE, mouseControls: true, touchControls: false, gyroControls: false,
         minHeight: 200, minWidth: 200,
         baseColor: 0x1d3f73, backgroundColor: 0x000000,
         amplitudeFactor: 1.1, ringFactor: 1.2, rotationFactor: 0.6, size: 1.35, xOffset: 0.2, yOffset: 0,
       });
-      hero.classList.add('has-halo');
-      animate(hero.querySelector('.vanta-canvas'), { opacity: [0, 0.36] }, { duration: 1.6 });
+      haloEl.classList.add('has-halo');
+      animate(haloEl.querySelector('.vanta-canvas'), { opacity: [0, 0.36] }, { duration: 1.6 });
     }).catch(() => {});
   };
-  const haloStop = () => { if (halo) { halo.destroy(); halo = null; hero.classList.remove('has-halo'); } };
+  const haloStop = () => { if (halo) { halo.destroy(); halo = null; haloEl.classList.remove('has-halo'); } };
   if (haloOk) {
     const whenBooted = () => new Promise((res) => {
       if (!root.classList.contains('intro-pending') && !document.querySelector('.launch')) return res();
       const iv = setInterval(() => { if (!document.querySelector('.launch')) { clearInterval(iv); res(); } }, 250);
     });
-    whenBooted().then(() => inView(hero, () => { haloStart(); return () => haloStop(); }, { amount: 0.05 }));
+    whenBooted().then(() => inView(haloEl, () => { haloStart(); return () => haloStop(); }, { amount: 0.05 }));
   }
 
   /* 5. Scroll: fly through the hero, then each block pops in as it arrives. */

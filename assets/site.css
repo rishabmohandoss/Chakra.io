@@ -580,3 +580,8 @@ sup{font-size:max(12px,.45em)!important}
 .intro-marquee{font-size:var(--fs-label)!important}
 .intro-marquee div{animation:marquee 60s linear infinite}
 .supporter-nsf-icorps img{height:clamp(48px,4.6vw,70px)}
+/* HALO also behind the ROSA / HCI world heroes */
+.world-hero .vanta-canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:0!important;pointer-events:none;
+  filter:grayscale(1) sepia(1) hue-rotate(168deg) saturate(2.2) brightness(.8);opacity:.36;mix-blend-mode:screen}
+.world-hero>*:not(.vanta-canvas){position:relative;z-index:1}
+.world-hero>span:not([class]){display:contents}

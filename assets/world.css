@@ -190,3 +190,8 @@
 .destination-closed{cursor:default}
 .destination-closed:hover{background:transparent;box-shadow:none;padding-inline:0}
 .destination-closed i{font-style:normal}
+/* World hero rings: same very slow clockwise drift as the homepage orbit. `rotate` stacks on each ring's tilt transform. */
+.world-graphic .wg-orbit{animation:ring-cw 240s linear infinite!important}
+.world-graphic .wg-orbit.two{animation-duration:320s!important}
+.world-graphic .wg-orbit.three{animation-duration:400s!important}
+@media(prefers-reduced-motion:reduce){.world-graphic .wg-orbit{animation:none!important}}
