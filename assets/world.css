@@ -187,3 +187,6 @@
   .rosa-destinations{padding-top:64px}
 }
 @media(prefers-reduced-motion:reduce){.journey-stage,.console-progress i{transition:none}}
+.destination-closed{cursor:default}
+.destination-closed:hover{background:transparent;box-shadow:none;padding-inline:0}
+.destination-closed i{font-style:normal}

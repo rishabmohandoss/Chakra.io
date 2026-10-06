@@ -1,16 +1,21 @@
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
+const revealItems = [...document.querySelectorAll('.reveal')];
+if ('IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.documentElement.classList.add('has-reveal-observer');
+  revealItems.forEach((item, index) => {
+    item.style.transitionDelay = `${Math.min(index % 4, 3) * 75}ms`;
+    revealObserver.observe(item);
   });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.reveal').forEach((item, index) => {
-  item.style.transitionDelay = `${Math.min(index % 4, 3) * 75}ms`;
-  revealObserver.observe(item);
-});
+} else {
+  revealItems.forEach((item) => item.classList.add('visible'));
+}
 
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('.main-nav');
