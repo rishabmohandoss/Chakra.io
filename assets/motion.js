@@ -111,27 +111,25 @@
     });
   }
 
-  /* 4. Launch sequence (home only): retro boot screen -> PRESS START -> warp -> fly into the headline. */
+  /* 4. Launch sequence (first page of a session): retro boot screen -> PRESS START -> CRT off -> hero fades in. */
   const hero = document.querySelector('.hero');
   const root = document.documentElement;
   const heroTitle = hero?.querySelector('h1');
   const assemble = (fast) => {
     root.classList.remove('intro-pending');
-    const d = fast ? 0 : 0.15;
-    if (heroTitle) animate(heroTitle, { opacity: [0, 1], scale: [fast ? 0.7 : 0.08, 1], filter: ['blur(24px)', 'blur(0px)'] },
-      { duration: fast ? 0.9 : 1.5, ease: [0.16, 1, 0.3, 1] });
-    animate('.topbar', { y: [-90, 0], opacity: [0, 1] }, { duration: 0.8, delay: d + 0.7, ease: [0.2, 0.8, 0.2, 1] });
+    const ease = 'easeOut', base = fast ? 0.6 : 1.1;
+    if (heroTitle) animate(heroTitle, { opacity: [0, 1] }, { duration: base, ease });
+    animate('.topbar', { opacity: [0, 1] }, { duration: base, delay: 0.2, ease });
     if (!hero) return;
-    animate('.hero-art', { opacity: [0, 1], scale: [0.55, 1], rotate: [-25, 0] }, { duration: 1.6, delay: d + 0.45, ease: [0.16, 1, 0.3, 1] });
-    animate('.hero .eyebrow, .hero-bottom, .hero-index', { opacity: [0, 1], y: [30, 0] }, { duration: 0.9, delay: stagger(0.12, { startDelay: d + 0.9 }), ease: [0.2, 0.8, 0.2, 1] });
+    animate('.hero-art', { opacity: [0, 1] }, { duration: base + 0.4, delay: 0.15, ease });
+    animate('.hero .eyebrow, .hero-bottom, .hero-index', { opacity: [0, 1] }, { duration: base, delay: stagger(0.12, { startDelay: 0.3 }), ease });
   };
   if (root.classList.contains('intro-pending')) {
     try { sessionStorage.setItem('chakraBooted', '1'); } catch (e) {}
     const overlay = document.createElement('div');
     overlay.className = 'launch';
     overlay.setAttribute('aria-hidden', 'true');
-    overlay.innerHTML = '<canvas></canvas>'
-      + '<div class="boot"><div class="boot-screen">'
+    overlay.innerHTML = '<div class="boot"><div class="boot-screen">'
       + '<div class="boot-title">CHAKRA.IO</div>'
       + '<div class="boot-sub">© 2026 CHAKRA INTELLIGENT SYSTEMS, INC.<br>AFTER AI™ / ENABLING THE INTELLIGENCE CONTINUUM</div>'
       + '<ul class="boot-log"></ul>'
@@ -160,42 +158,12 @@
     cells.forEach((c, i) => later(300 + i * 105 + (i > 13 ? 180 : 0), () => c.classList.add('on')));
     later(2600, () => startEl.classList.add('blink'));
 
-    /* warp starfield */
-    const canvas = overlay.querySelector('canvas'), ctx = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const size = () => { canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr; };
-    size(); addEventListener('resize', size);
-    const colors = ['#ffffff', '#cfe0ff', '#8fb4ff', '#d9ff55'];
-    const stars = Array.from({ length: 650 }, () => ({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random(), c: colors[Math.random() < 0.08 ? 3 : Math.floor(Math.random() * 3)] }));
-    const WARP = 1.9;
-    let warpStart = 0, last = 0, done = false, revealed = false, launched = false;
+    let done = false, launched = false;
     const finish = (fast) => {
       if (done) return; done = true;
       timers.forEach(clearTimeout);
-      if (!revealed) { revealed = true; assemble(fast); }
-      animate(overlay, { opacity: 0 }, { duration: fast ? 0.3 : 0.7 }).then(() => overlay.remove());
-    };
-    const frame = (now) => {
-      if (done && !overlay.isConnected) return;
-      if (!warpStart) { warpStart = now; last = now; }
-      const t = Math.max(0, (now - warpStart) / 1000), dt = Math.max(0, Math.min((now - last) / 1000, 0.05)); last = Math.max(last, now);
-      const speed = t < 0.9 ? 0.3 + Math.pow(t / 0.9, 2) * 2.6 : Math.max(0.03, 2.9 * (1 - (t - 0.9) / 0.9));
-      const w = canvas.width, h = canvas.height, cx = w / 2, cy = h / 2, f = Math.max(w, h) * 0.14;
-      const bg = t < 0.95 ? 1 : Math.max(0, 1 - (t - 0.95) / 0.55);
-      ctx.clearRect(0, 0, w, h);
-      if (bg > 0) { ctx.fillStyle = `rgba(5,7,15,${bg})`; ctx.fillRect(0, 0, w, h); }
-      for (const s of stars) {
-        const pz = s.z;
-        s.z -= speed * dt;
-        if (s.z <= 0.02) { s.x = Math.random() * 2 - 1; s.y = Math.random() * 2 - 1; s.z = 1; continue; }
-        ctx.strokeStyle = s.c; ctx.globalAlpha = Math.min(1, 0.25 + (1 - s.z) * 1.4);
-        ctx.lineWidth = Math.max(0.6, (1 - s.z) * 2.6) * dpr;
-        ctx.beginPath(); ctx.moveTo(cx + (s.x / pz) * f, cy + (s.y / pz) * f); ctx.lineTo(cx + (s.x / s.z) * f + 0.5, cy + (s.y / s.z) * f + 0.5); ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-      if (t > 0.8 && !revealed) { revealed = true; assemble(false); }
-      if (t > WARP) finish(false);
-      requestAnimationFrame(frame);
+      assemble(fast);
+      animate(overlay, { opacity: 0 }, { duration: fast ? 0.3 : 0.6 }).then(() => overlay.remove());
     };
     const launch = () => {
       if (launched || done) return; launched = true;
@@ -204,9 +172,7 @@
       startEl.classList.remove('blink'); startEl.style.opacity = '1';
       setTimeout(() => {
         boot.classList.add('off');
-        overlay.classList.add('warping');
-        requestAnimationFrame(frame);
-        setTimeout(() => boot.remove(), 460);
+        setTimeout(() => finish(false), 420);
       }, 160);
     };
     later(4200, launch);
@@ -239,7 +205,7 @@
         amplitudeFactor: 1.1, ringFactor: 1.2, rotationFactor: 0.6, size: 1.35, xOffset: 0.2, yOffset: 0,
       });
       hero.classList.add('has-halo');
-      animate(hero.querySelector('.vanta-canvas'), { opacity: [0, 1] }, { duration: 1.6 });
+      animate(hero.querySelector('.vanta-canvas'), { opacity: [0, 0.36] }, { duration: 1.6 });
     }).catch(() => {});
   };
   const haloStop = () => { if (halo) { halo.destroy(); halo = null; hero.classList.remove('has-halo'); } };

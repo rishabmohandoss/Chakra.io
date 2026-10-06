@@ -564,5 +564,5 @@ sup{font-size:max(12px,.45em)!important}
 .hero>.hero-index{position:absolute}
 .hero .vanta-canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;grid-area:auto!important;
   /* Shader cycles through pinks/purples on its own; force a single blue hue (magenta rule) */
-  filter:grayscale(1) sepia(1) hue-rotate(168deg) saturate(2.6) brightness(.95);opacity:.62;mix-blend-mode:screen}
+  filter:grayscale(1) sepia(1) hue-rotate(168deg) saturate(2.2) brightness(.8);opacity:.36;mix-blend-mode:screen}
 .hero>span:not([class]){display:contents}

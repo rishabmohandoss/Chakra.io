@@ -209,7 +209,7 @@ The owner asked for the site to feel like starting a video game, not a static pa
   1. CRT screen (scanlines, flicker, Press Start 2P pixel font) with the CHAKRA.IO title and boot log.
   2. A 20-block loading bar fills, then ▶ PRESS START blinks.
   3. It auto-launches, or launches early on Enter, click or tap.
-  4. A CRT power-off squeeze, then a starfield warp, then the hero headline flies in and the page assembles.
+  4. A CRT power-off squeeze, then the hero **fades in** (opacity only; no zoom). The warp/fly-in was removed at the owner's request on Oct 6.
 - Skip: the Skip button or Escape. Scrolling does **not** skip (that was removed on purpose).
 
 ### Other motion
@@ -223,6 +223,7 @@ The owner asked for the site to feel like starting a video game, not a static pa
   - Hero background, desktop only (>800px, WebGL required). Loads after the boot screen.
   - Destroyed when the hero scrolls out of view and recreated on return. Mouse controls are on.
   - **HALO's shader generates pink/purple regardless of options.** A CSS filter on `.hero .vanta-canvas` forces a single blue hue. Never remove it (magenta rule).
+  - Halo strength is toned down to opacity 0.36. Motion's fade-in sets it inline in `motion.js`, so change it there as well as in `site.css`.
   - Vanta wraps the hero's whitespace text nodes in `<span>`s. `.hero>span:not([class]){display:contents}` keeps them from breaking the grid.
 
 ### Rules for any new motion
