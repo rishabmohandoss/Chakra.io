@@ -209,7 +209,7 @@ The owner asked for the site to feel like starting a video game, not a static pa
   1. CRT screen (scanlines, flicker, Press Start 2P pixel font) with the CHAKRA.IO title and boot log.
   2. A 20-block loading bar fills, then ▶ PRESS START blinks.
   3. It auto-launches, or launches early on Enter, click or tap.
-  4. A CRT power-off squeeze, then the hero **fades in** (opacity only; no zoom). The warp/fly-in was removed at the owner's request on Oct 6.
+  4. A CRT power-off squeeze, then a starfield **space warp**. As the warp slows, the hero **fades in** (opacity only; the headline no longer flies or scales in).
 - Skip: the Skip button or Escape. Scrolling does **not** skip (that was removed on purpose).
 
 ### Other motion

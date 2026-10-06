@@ -111,7 +111,7 @@
     });
   }
 
-  /* 4. Launch sequence (first page of a session): retro boot screen -> PRESS START -> CRT off -> hero fades in. */
+  /* 4. Launch sequence (first page of a session): retro boot screen -> PRESS START -> CRT off -> space warp -> hero fades in (no zoom on the hero itself). */
   const hero = document.querySelector('.hero');
   const root = document.documentElement;
   const heroTitle = hero?.querySelector('h1');
@@ -136,7 +136,7 @@
     const overlay = document.createElement('div');
     overlay.className = 'launch';
     overlay.setAttribute('aria-hidden', 'true');
-    overlay.innerHTML = '<div class="boot"><div class="boot-screen">'
+    overlay.innerHTML = '<canvas></canvas><div class="boot"><div class="boot-screen">'
       + '<div class="boot-title">CHAKRA.IO</div>'
       + '<div class="boot-sub">© 2026 CHAKRA INTELLIGENT SYSTEMS, INC.<br>AFTER AI™ / ENABLING THE INTELLIGENCE CONTINUUM</div>'
       + '<ul class="boot-log"></ul>'
@@ -165,14 +165,44 @@
     cells.forEach((c, i) => later(300 + i * 105 + (i > 13 ? 180 : 0), () => c.classList.add('on')));
     later(2600, () => startEl.classList.add('blink'));
 
-    let done = false, launched = false;
+    /* warp starfield */
+    const canvas = overlay.querySelector('canvas'), ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const size = () => { canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr; };
+    size(); addEventListener('resize', size);
+    const colors = ['#ffffff', '#cfe0ff', '#8fb4ff', '#d9ff55'];
+    const stars = Array.from({ length: 650 }, () => ({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random(), c: colors[Math.random() < 0.08 ? 3 : Math.floor(Math.random() * 3)] }));
+    const WARP = 1.9;
+    let warpStart = 0, last = 0, done = false, revealed = false, launched = false;
     const finish = (fast) => {
       if (done) return; done = true;
       timers.forEach(clearTimeout);
       toTop();
       root.classList.remove('booting');
-      assemble(fast);
-      animate(overlay, { opacity: 0 }, { duration: fast ? 0.3 : 0.6 }).then(() => overlay.remove());
+      if (!revealed) { revealed = true; assemble(fast); }
+      animate(overlay, { opacity: 0 }, { duration: fast ? 0.3 : 0.7 }).then(() => overlay.remove());
+    };
+    const frame = (now) => {
+      if (done && !overlay.isConnected) return;
+      if (!warpStart) { warpStart = now; last = now; }
+      const t = Math.max(0, (now - warpStart) / 1000), dt = Math.max(0, Math.min((now - last) / 1000, 0.05)); last = Math.max(last, now);
+      const speed = t < 0.9 ? 0.3 + Math.pow(t / 0.9, 2) * 2.6 : Math.max(0.03, 2.9 * (1 - (t - 0.9) / 0.9));
+      const w = canvas.width, h = canvas.height, cx = w / 2, cy = h / 2, f = Math.max(w, h) * 0.14;
+      const bg = t < 0.95 ? 1 : Math.max(0, 1 - (t - 0.95) / 0.55);
+      ctx.clearRect(0, 0, w, h);
+      if (bg > 0) { ctx.fillStyle = `rgba(5,7,15,${bg})`; ctx.fillRect(0, 0, w, h); }
+      for (const s of stars) {
+        const pz = s.z;
+        s.z -= speed * dt;
+        if (s.z <= 0.02) { s.x = Math.random() * 2 - 1; s.y = Math.random() * 2 - 1; s.z = 1; continue; }
+        ctx.strokeStyle = s.c; ctx.globalAlpha = Math.min(1, 0.25 + (1 - s.z) * 1.4);
+        ctx.lineWidth = Math.max(0.6, (1 - s.z) * 2.6) * dpr;
+        ctx.beginPath(); ctx.moveTo(cx + (s.x / pz) * f, cy + (s.y / pz) * f); ctx.lineTo(cx + (s.x / s.z) * f + 0.5, cy + (s.y / s.z) * f + 0.5); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      if (t > 0.8 && !revealed) { revealed = true; toTop(); root.classList.remove('booting'); assemble(false); }
+      if (t > WARP) finish(false);
+      requestAnimationFrame(frame);
     };
     const launch = () => {
       if (launched || done) return; launched = true;
@@ -181,7 +211,9 @@
       startEl.classList.remove('blink'); startEl.style.opacity = '1';
       setTimeout(() => {
         boot.classList.add('off');
-        setTimeout(() => finish(false), 420);
+        overlay.classList.add('warping');
+        requestAnimationFrame(frame);
+        setTimeout(() => boot.remove(), 460);
       }, 160);
     };
     later(4200, launch);
