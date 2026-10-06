@@ -557,3 +557,12 @@ sup{font-size:max(12px,.45em)!important}
   .hero-art .node{padding:9px 11px!important}
 }
 .hero-bottom{max-width:560px!important}.hero-bottom p{max-width:440px!important}
+/* Vanta HALO hero background */
+.hero.has-halo{background-image:none!important}
+.hero .vanta-canvas{z-index:0!important;pointer-events:none;mix-blend-mode:screen;opacity:.9}
+.hero>*:not(.vanta-canvas){position:relative;z-index:1}
+.hero>.hero-index{position:absolute}
+.hero .vanta-canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;grid-area:auto!important;
+  /* Shader cycles through pinks/purples on its own; force a single blue hue (magenta rule) */
+  filter:grayscale(1) sepia(1) hue-rotate(168deg) saturate(2.6) brightness(.95);opacity:.62;mix-blend-mode:screen}
+.hero>span:not([class]){display:contents}
