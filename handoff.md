@@ -277,3 +277,39 @@ The owner asked for the site to feel like starting a video game, not a static pa
 ## Temporary password lock (removed)
 
 A surface-level preview password lock (`assets/lock.js`, plus one `<script>` line per page) was added on Oct 6, 2026 in commit `19b2059` and later removed. To bring it back, run `git revert` on the removal commit.
+
+## aichakra.io-v2 — redesign notes (Oct 10, 2026, owner direction)
+
+Repo: https://github.com/rishabmohandoss/aichakra.io-v2 (local: `~/aichakra.io-v2`). A static, no-build, one-page rebuild of this site. Preview with `python3 -m http.server 8123` from that folder. Pushed to `main` (latest `9a64746`).
+
+### What changed and why
+- **Background (`assets/space.js`, `.void` in `assets/site.css`).** The hero keeps the WebGL sky exactly as before (aurora, stars, vapour text). After the hero a solid Astorian Midnight `#0b193a` layer fades in and covers everything (no stars, aurora, or Earth) to signal deep emptiness. Two huge, near-identical radial washes (`.void::before/::after`, 80 s and 100 s drifts, `#15306a` / `#050c20`) give very slow movement; owner asked for it to be slightly more noticeable and then approved. A third layer (`.void-glow`, driven by the `LIGHT` table in `assets/app.js`) slowly moves and re-tints the light per chapter (3 s transition, uses `@property` for `--gx/--gy/--gc`). Reduced motion stops the drift.
+- **Earth.** A version where the Earth rose only in "Supported by" was tried and rejected as ugly; reverted. The Earth markup and code remain but are covered by the void. Do not re-add without asking.
+- **Footer socials.** LinkedIn, Bluesky, and YouTube are now icon-only links (inline SVG, `aria-label`). URLs are still the generic homepages: **replace with Chakra's real profiles**.
+- **The Information Gap (`#gap`).** The pinned scroll-jacked "scramble" sequence (340vh) was removed because it felt like the page had ended. It is now three ideas in normal flow, each led by a small dim "Information", joined by a vertical thread that fills with scroll; the idea nearest screen centre is in focus, the others dim. Idea 03 holds the Readiness Boundary flow. Logic: `beatList` block in `assets/app.js`.
+- **Technologies.** ROSA now shows "Runtime Operations & Systems Analytics" plus a description taken from Roz's ROSA story (above). HCI's description is the owner's direction, "a human in the loop": *HCI keeps a human in the loop. Intelligent systems do the work, and people review, direct and approve what matters before it becomes a decision.* The spinning artwork now sits in its own space above the text so words never cover it.
+- **Let's Connect (`#contact`).** New closing section restoring the old "Build the house. Make room for what's next." page in the current theme (accent blue, serif italic middle line, faint rings). Button is `mailto:hello@chakra.io` (carried over from the old site; **confirm**).
+- **Supporter logos.** Each logo sits in an identical 96 px box so all share one centre line; captions hang below. The NJIT logo is nudged down 10 px (`img[alt="NJIT"]`).
+- **Company page (`#company`).** Title "Chakra / Intelligent / Systems" on the left. On the right, two separate stacked blocks with a hairline between: **Who we are** (Roz's official statement, verbatim) and **What we do** (draft, see below). Boxed/frosted panels, a single merged paragraph, a three-column list, and a centred layout were each tried and rejected.
+- **Spacing.** From section 04 (The House) onward, and for The Company and The Ecosystem, sections no longer fill a full screen; they take their content height with 48–90 px padding so one hands off to the next.
+- **Continuity.** Each section (except hero and gap) fades with scroll so one dissolves into the next (`journey()` in `assets/app.js`). A rail/index of chapter dots, chapter pop-up titles, and a progress bar were tried and rejected as "an index, not an experience". Bridge lines between sections and an overlapping-sections layout were prototyped and not chosen.
+- **The thread (chosen).** A glowing point on the left edge tracks scroll progress and **can be dragged (or the line clicked) to scrub the page**; arrow/Page/Home/End keys also work and it is exposed as a `role="scrollbar"`. Scrolling is set with `behavior: 'instant'` so the page's smooth-scroll doesn't lag behind the pointer. Hidden under 860 px (touch scrolls natively). No network cost; performance is bounded by the same per-scroll work the page already does.
+
+### Copy that is a draft and needs Roz's approval
+- **What we do:** "We build the technologies that determine whether information from intelligent systems is ready to be relied upon, with people kept in the loop, before it shapes a decision or an action." (Written from the site's own ROSA/readiness/HCI language; it is a claim about what the company does.)
+- The HCI description above.
+- The "Who we are" label is from the "Who we are" note earlier in this file.
+
+### Design audit — "vibe-coded" tells (flagged, deliberately NOT yet fixed; owner chose to leave as is for now)
+Owner flagged glowy buttons and gradients (ROSA/HCI cards, Readiness Boundary icons). Audit of `assets/site.css` found:
+- **Glows (~10 places):** ROSA "R" text-shadow, HCI "H" disc halo, orbit-dot drop-shadows, pink/blue ring glows on ecosystem nodes, three-layer thread-orb halo, thread/beat-dot/level-dot glows, Let's Connect hover shadow.
+- **Gradients:** teal and indigo radial-gradient card backgrounds (ROSA/HCI), gradient icon discs with glow ring (Readiness Boundary `.ficon`), ecosystem node discs, and a background light that drifts to violet (`#241b55` in the Gap) — the most-cited purple/blue tell.
+- **Other tells:** icon-in-a-circle everywhere; blur-in on every `.reveal`; `backdrop-filter` blur on the world cards; numbered mono kickers ("03 / …") on nearly every section; sans headline with an italic-serif accent word; hero aurora is pink/purple (hero kept at owner's request).
+- **Proposed "flat pass" (awaiting go-ahead):** remove glows (flat solid dots, plain fill-swap button hover); replace gradient cards with flat navy + 1 px hairline; bare line icons or numbers instead of circles; keep fades but drop blur; use fewer numbered labels; one blue accent used for action/emphasis only; keep light drift inside one blue family (no violet/teal). Keep the serif accent unless the owner decides otherwise (brand decision).
+- **Wider checklist from the research:** replace generic copy with specific claims; vary layout instead of equal cards; check on a real phone (not yet done for v2); contrast checks if any glass is kept. Sources: thefountaininstitute.com/blog/signs-vibe-coded-ui, codemyspec.com/blog/vibe-coded-websites-look-the-same, 21st.dev/blog/website-not-look-ai-generated, superdesign.dev/blog/fix-generic-ai-landing-page, blog.logrocket.com/ux-design/what-is-glassmorphism (practitioner opinion, not research).
+
+### Pending for v2
+- Real social profile URLs; confirm `hello@chakra.io`.
+- Roz's approval of the draft copy above.
+- Decide on the flat pass.
+- A real-phone QA pass (mobile layouts for the new sections were written but not verified on a device).
